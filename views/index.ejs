@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    <h1>Write your To Do List</h1>
+    <div id="list">
+        <ul>
+                <li>
+                    <div class="header">
+                        <form action="/update" method="POST">
+                            <input class="title" name="title" type="text" placeholder="Title" value="<%= title %>">
+
+                            <div class="date">
+                                <div class="dayText">
+                                    <p><%= dayText %></p>
+                                </div>
+                                <p class="month"><%= month %></p>
+                                <p class="day"><%= day %></p>
+                                <span class="datepicker-toggle">
+                                    <span class="datepicker-toggle-button"></span>
+                                    <input class="datepicker-input" type="date" id="date" name="date">
+                                </span>
+                            </div>
+                            <input class="update-btn" type="submit" value="✔">
+                        </form>
+                    </div>
+                </li>
+
+                <!-- use for loop -->
+                <li>
+                    <div class="toDoList-container">
+                        <% if (list.length < 1) { %>
+                                <form action="/add" method="POST">
+                                    <li class="linebox">
+                                        <div class="checkbox-container">
+                                            <input class="checkbox" type="checkbox">
+                                            <span class="showCheckBox"></span>
+                                        </div>
+                                        <label class="line-text"><input type="text" name="todo" autofocus="autofocus"></label>
+                                        <input class="add-line-btn" type="submit" value="+">
+                                        <form action="/update-line" method="POST">
+                                            <input class="hidden-btn" name="update" value=<%= 0 %> type="submit">
+                                        </form>
+                                    </li>
+                                </form>
+                        <% } else { %>
+                                    <% for (var i = 0; i < list.length; i ++){ %>
+                                        <li class="linebox">
+                                            <div class="checkbox-container">
+                                                <input class="checkbox" type="checkbox">
+                                                <span class="showCheckBox"></span>
+                                            </div>
+                                            <label class="line-text"><input type="text" name="todo" value="<%= list[i] %>"></label>
+                                            <form action="/remove" method="POST">
+                                                <button class="remove-btn" type="submit" name="remove" value="<%= i %>">-</button>
+                                            </form>
+                                            <form action="/update-line" method="POST">
+                                                <input class="hidden-btn" name='update' value="<%= i %>" type="submit">
+                                            </form>
+                                        </li>
+                                <% } %>
+                                    <form action="/add", method="POST">
+                                        <li class="linebox">
+                                            <div class="checkbox-container">
+                                                <input class="checkbox" type="checkbox">
+                                                <span class="showCheckBox"></span>
+                                            </div>
+                                            <label class="line-text"><input type="text" name="todo" autofocus="autofocus"></label>
+                                            <input class="add-line-btn" type="submit" value="+">
+                                        </li>
+                                    </form>
+                                
+                        <% } %>
+                    </div>
+                </li>
+        </ul>
+    </div>
+
+
+<script src="../index.js"></script>
+
+</body>
+</html>
